@@ -33,14 +33,17 @@ public class VoronoiDemo : MonoBehaviour
 				
 		List<uint> colors = new List<uint> ();
 		m_points = new List<Vector2> ();
-			
+        /*	
 		for (int i = 0; i < m_pointCount; i++) {
 			colors.Add (0);
 			m_points.Add (new Vector2 (
 					UnityEngine.Random.Range (0, m_mapWidth),
 					UnityEngine.Random.Range (0, m_mapHeight))
 			);
-		}
+		}*/
+        heightmapParser hmp = GameObject.Find("HeightmapParser").GetComponent<heightmapParser>();
+        m_points = hmp.GetDistrictCenterPoints();
+
 		Delaunay.Voronoi v = new Delaunay.Voronoi (m_points, colors, new Rect (0, 0, m_mapWidth, m_mapHeight));
 		m_edges = v.VoronoiDiagram ();
 			

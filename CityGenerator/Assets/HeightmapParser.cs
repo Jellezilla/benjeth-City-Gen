@@ -5,7 +5,7 @@ using System.Linq;
 using Delaunay;
 using Delaunay.Geo;
 
-public class heightmapParser : MonoBehaviour {
+public class HeightmapParser : MonoBehaviour {
 
 
     public Texture2D heightmap;

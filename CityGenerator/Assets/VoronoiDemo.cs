@@ -41,7 +41,7 @@ public class VoronoiDemo : MonoBehaviour
 					UnityEngine.Random.Range (0, m_mapHeight))
 			);
 		}*/
-        heightmapParser hmp = GameObject.Find("HeightmapParser").GetComponent<heightmapParser>();
+        HeightmapParser hmp = GameObject.Find("HeightmapParser").GetComponent<HeightmapParser>();
         m_points = hmp.GetDistrictCenterPoints();
 
 		Delaunay.Voronoi v = new Delaunay.Voronoi (m_points, colors, new Rect (0, 0, m_mapWidth, m_mapHeight));

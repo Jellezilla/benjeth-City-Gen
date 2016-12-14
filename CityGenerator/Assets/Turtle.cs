@@ -21,7 +21,7 @@ public class RoadSegment{
 	public Vector2 end;
 	public int branchDepth;
 	public RoadType roadType;
-	public bool connected = true;
+	public bool connected;
 	public int id;
 	public int stackID;
 
@@ -52,8 +52,9 @@ public class Turtle{
 		segments.Remove(segment);
 	}
 
-	public void initialize(float angle, float distance){
-		currentPosition = new Vector2(0f, 0f);
+	public void initialize(float angle, float distance, Vector2 initPos){
+		currentPosition = initPos;
+		Debug.Log("cp "+ currentPosition);
 		previousPosition = currentPosition;
 		vertices = new List<Vector3>();
 		segments = new List<RoadSegment>();

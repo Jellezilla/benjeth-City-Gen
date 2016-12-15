@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LineLineIntersection {
 
@@ -14,6 +15,44 @@ public class LineLineIntersection {
 			return _instance;
 		}
 	}
+
+
+	// http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+	public RoadSegment MultipleLineSegmentIntersection(Vector2 p, Vector2 p2, RoadSegment[] segments){ // check against multiple lines
+
+		RoadSegment closestRoadSegment = new RoadSegment();
+		float smallestDistance = float.MaxValue;
+		Dictionary<RoadSegment, float> distances = new Dictionary<RoadSegment, float>();
+		for (int i = 0; i < segments.Length; i++){
+			Vector2 r = p2 - p;
+			Vector2 s = segments[i].end - segments[i].start;
+
+			float t = Cross((segments[i].start - p), s / Cross(r,s));
+			float u = Cross((segments[i].start - p), r / Cross(r,s));
+
+			if ((t >= 0 && t <= 1) && (u >= 0 && u <= 1)){
+				Vector2 intersection = p + (t * r); // same as q + (u * s)
+				float dist = Mathf.Sqrt(Mathf.Pow(p.x - intersection.x, 2) + Mathf.Pow(p.y - intersection.y, 2));
+				distances.Add(segments[i], dist);
+			}
+		}
+
+		if (distances.Count == 0){
+			return null; // no intersections
+		}
+
+		// sort list
+		foreach (var entry in distances ){
+			if (entry.Value < smallestDistance){
+				smallestDistance = entry.Value;
+				closestRoadSegment = entry.Key;
+			}
+		}
+
+		return closestRoadSegment;
+	}
+
+
 
 	// http://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
 	public Vector2? LineIntersection(Vector2 p, Vector2 p2, Vector2 q, Vector2 q2){

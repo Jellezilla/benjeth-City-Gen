@@ -144,6 +144,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: angles.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010356863406, guid: 520372ed946284c9dbb59e7f54317a5c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -175,6 +180,51 @@ Prefab:
     - target: {fileID: 4000010356863406, guid: 520372ed946284c9dbb59e7f54317a5c, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: stochasticRules.Array.data[0].ruleVariations.Array.data[0].right
+      value: -FFFF[--A]F[+++A]B-
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: stochasticRules.Array.data[0].ruleVariations.Array.data[1].right
+      value: -FFFF[-A]FF[+B]
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: stochasticRules.Array.data[1].ruleVariations.Array.data[0].right
+      value: FFF[A--FF]
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: length
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: generations
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: angles.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: angles.Array.data[1]
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: angles.Array.data[2]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: angles.Array.data[3]
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 520372ed946284c9dbb59e7f54317a5c, type: 2}
@@ -278,7 +328,7 @@ Prefab:
     - target: {fileID: 114000011427662480, guid: 66cae249f96444a25a6ed06b4b1a4634,
         type: 2}
       propertyPath: amountOfDistricts
-      value: 30
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 1000013129623060, guid: 66cae249f96444a25a6ed06b4b1a4634, type: 2}
       propertyPath: m_IsActive

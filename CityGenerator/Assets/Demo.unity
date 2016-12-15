@@ -239,7 +239,7 @@ Prefab:
     - target: {fileID: 114000011427662480, guid: 66cae249f96444a25a6ed06b4b1a4634,
         type: 2}
       propertyPath: amountOfDistricts
-      value: 200
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 66cae249f96444a25a6ed06b4b1a4634, type: 2}
@@ -251,6 +251,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: angles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4000010356863406, guid: 520372ed946284c9dbb59e7f54317a5c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 229.57376
@@ -292,6 +297,16 @@ Prefab:
         type: 2}
       propertyPath: length
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: angles.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
+        type: 2}
+      propertyPath: angles.Array.data[1]
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 520372ed946284c9dbb59e7f54317a5c, type: 2}

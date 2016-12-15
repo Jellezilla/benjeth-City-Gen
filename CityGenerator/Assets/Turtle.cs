@@ -41,6 +41,8 @@ public class Turtle{
 	public Stack<TurtleState> states = new Stack<TurtleState>();
 	public float distance = 10;
 	private float angle = 0;
+	private float defaultAngle = 0;
+
 	public int stackDepth {get; private set;}
 	private int id = 0;
 	public int stackID = 0;
@@ -52,13 +54,12 @@ public class Turtle{
 		segments.Remove(segment);
 	}
 
-	public void initialize(float angle, float distance, Vector2 initPos){
+	public void initialize(float defaultAngle, float angle, float distance, Vector2 initPos){
 		currentPosition = initPos;
-		Debug.Log("cp "+ currentPosition);
 		previousPosition = currentPosition;
 		vertices = new List<Vector3>();
 		segments = new List<RoadSegment>();
-
+		this.defaultAngle = defaultAngle;
 		this.angle = angle;
 		this.distance = distance;
 		vertices.Add(currentPosition);
@@ -68,7 +69,7 @@ public class Turtle{
 	public void forward(){
 
 
-		var angleRadians = angle * Mathf.PI / 180;
+		var angleRadians = defaultAngle + angle * Mathf.PI / 180;
 		var newX = currentPosition.x + (float)(distance * Mathf.Sin(angleRadians));
 		var newY = currentPosition.y + (float)(distance * Mathf.Cos(angleRadians));
 		currentPosition = new Vector2(newX, newY);

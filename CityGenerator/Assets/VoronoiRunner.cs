@@ -8,7 +8,9 @@ public class VoronoiRegion{
 
 	public Vector2 center;
 	public List<RoadSegment> boundary; 
-
+	public bool isBorderRegion = false;
+	public Vector2 min;
+	public Vector2 max;
 }
 
 
@@ -31,13 +33,40 @@ public class VoronoiRunner : MonoBehaviour
     HeightmapParser hmp;
 	List<VoronoiRegion> regions = new List<VoronoiRegion>();
 	List<RoadSegment> segments = new List<RoadSegment>();
+	List<RoadSegment> borders = new List<RoadSegment>();
 
     void Awake()
     {
         hmp = GameObject.FindGameObjectWithTag("HeightmapParser").GetComponent<HeightmapParser>();
         m_mapWidth = hmp.heightmap.width;
         m_mapHeight = hmp.heightmap.height;
-        //Demo ();
+
+		RoadSegment seg1 = new RoadSegment();
+		seg1.start = new Vector2(0, 0);
+		seg1.end = new Vector2(0, m_mapHeight);
+		seg1.id = 100001;
+
+		RoadSegment seg2 = new RoadSegment();
+		seg2.start = new Vector2(0, 0);
+		seg2.end =  new Vector2(m_mapWidth, 0);
+		seg2.id = 100002;
+
+		RoadSegment seg3 = new RoadSegment();
+		seg3.start = new Vector2(m_mapWidth, 0);
+		seg3.end =  new Vector2(m_mapWidth, m_mapHeight);
+		seg3.id = 100003;
+
+		RoadSegment seg4 = new RoadSegment();
+		seg4.start = new Vector2(0, m_mapHeight);
+		seg4.end = new Vector2(m_mapWidth, m_mapHeight);
+		seg4.id = 100004;
+
+		borders.Add(seg1);
+		borders.Add(seg2);
+		borders.Add(seg3);
+		borders.Add(seg4);
+
+	
     }
 		
 	void Start (){
@@ -53,7 +82,7 @@ public class VoronoiRunner : MonoBehaviour
 		else if (Input.GetKeyDown(KeyCode.N) && !populated){
 
 
-			StartCoroutine(buildCity(.1f));
+			StartCoroutine(buildCity(.2f));
 
 
 		}
@@ -62,12 +91,15 @@ public class VoronoiRunner : MonoBehaviour
 	IEnumerator buildCity(float delay){
 
 		populated = true;
-
 		foreach(Vector2 point in m_points){
-			List<RoadSegment> bounds = GetBoundaries(point, 10000);
+			yield return new WaitForSeconds(delay);
 
+			int counter = 0;
+			List<RoadSegment> bounds = GetBoundaries(point, 10000);
+			VoronoiRegion tmp = regions[counter];
 			List<Vector3[]> sides = new List<Vector3[]>();
 			List<Vector3> verts = new List<Vector3>();
+
 			foreach(RoadSegment seg in bounds){
 				sides.Add(seg.getLine());
 				verts.Add(seg.end);
@@ -75,12 +107,30 @@ public class VoronoiRunner : MonoBehaviour
 
 			LSystem clone = (LSystem) Instantiate(LSystem);
 			clone.init(point);
+
+			if (!tmp.isBorderRegion){
+				clone.center(clone.getCenter(), clone.getCenter(bounds));
+				clone.redraw();
+			}
+
 			clone.confineToBounds(sides);
-			clone.JoinSegments(verts.ToArray(), 10f);
+			//clone.JoinSegments(verts.ToArray(), 1.1f);
 
-			yield return new WaitForSeconds(delay);
+			if (!tmp.isBorderRegion){
+				while (!clone.fillBounds(tmp.min, tmp.max) && counter < 15){
+					yield return new WaitForSeconds(0.005f);
+					clone.reset();
+					clone.init(point);
+					counter++;
 
+				}
+			}
+
+			clone.confineToBounds(sides);
+			//clone.JoinSegments(verts.ToArray(), 1.1f);
 		}
+
+	
 
 	}
 
@@ -123,29 +173,21 @@ public class VoronoiRunner : MonoBehaviour
 			segments.Add(segment);
 			counter++;
 		}
-		/*
-		foreach (Vector2 point in m_points){
-
-			VoronoiRegion r = new VoronoiRegion();
-			r.center = point;
-		} */
-
+	
 
 
     }
-		
 
 	List<RoadSegment> GetBoundaries(Vector2 origin, float dist, int testCount = 120){
 
 		Debug.Assert ( testCount > 0, "testCount has to be a positive non zero value");
 
-
 		float x = 360/testCount;
 		Vector2 point = new Vector2(origin.x, origin.y + dist); // start checking above origin
 		List <RoadSegment> boundary = new List<RoadSegment>();
-
+		bool isBorderRegion = false;
 		for (int i = 0; i < testCount; i++){
-			
+
 			float newX = origin.x + (point.x-origin.x) * Mathf.Cos(x) - (point.y-origin.y) * Mathf.Sin(x);
 			float newY = origin.y + (point.x-origin.x) * Mathf.Sin(x) + (point.y-origin.y) * Mathf.Cos(x);
 			point = new Vector2(newX, newY);
@@ -157,8 +199,51 @@ public class VoronoiRunner : MonoBehaviour
 					boundary.Add(intersected);
 				}
 			}
+			else {
+				print("Did not intersect, is border");
+				isBorderRegion = true;
+			}
 		}
 
+		VoronoiRegion vr = new VoronoiRegion();
+		vr.center = origin;
+		vr.boundary = boundary;
+		vr.isBorderRegion = isBorderRegion;
+
+		float minX = origin.x; 
+		float maxX = origin.x;
+
+		float minY = origin.y;
+		float maxY = origin.y;
+
+		foreach (RoadSegment seg in boundary){
+
+			if (seg.start.x < minX)
+				minX = seg.start.x;
+			if (seg.end.x < minX)
+				minX = seg.start.x;
+
+			if (seg.start.x > maxX)
+				maxX = seg.start.x;
+			if (seg.end.x > maxX)
+				maxX = seg.start.x;
+
+
+			if (seg.start.y < minY)
+				minY = seg.start.y;
+			if (seg.end.y < minY)
+				minY = seg.start.y;
+
+			if (seg.start.y > maxY)
+				maxY = seg.start.y;
+			if (seg.end.y > maxY)
+				maxY = seg.start.y;
+		}
+		vr.min = new Vector2(minX, minY);
+		vr.max = new Vector2(maxX, maxY);
+		//print("pos : " + vr.center+ ", min " + vr.min + ", max: "+ vr.max);
+
+		regions.Add(vr);
 
 		return boundary;
 
@@ -170,7 +255,7 @@ public class VoronoiRunner : MonoBehaviour
 
         if (m_edges != null)
         {
-            Gizmos.color = Color.white;
+            Gizmos.color = Color.black;
             for (int i = 0; i < m_edges.Count; i++)
             {
                 Vector2 left = (Vector2)m_edges[i].p0;

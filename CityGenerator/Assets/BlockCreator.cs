@@ -1,7 +1,14 @@
-﻿using UnityEngine;
+﻿/*
+*   Author: Jesper Tjørnelund (jeth@itu.dk)
+*   This class creates a primitive shape defined by vertices using the mesh component. 
+*   Inspiration and help found on this: http://wiki.unity3d.com/index.php/ProceduralPrimitives
+*/
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 public class BlockCreator : MonoBehaviour {
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -16,6 +23,19 @@ public class BlockCreator : MonoBehaviour {
             //CreateBuilding(new Vector2(10, 10), new Vector2(15, 20), new Vector2(20, 10), new Vector2(5, 20), 2.0f);
         }
 	}
+
+    void CreateCityBlock(Vector2 c0, Vector2 c1, Vector2 c2, Vector2 c3, float density)
+    {
+        int maxWidth =  Mathf.Abs((int)c0.x - (int)c3.x);
+        int maxHeight = Mathf.Abs((int)c0.y - (int)c3.y);
+        for (int i = 0; i < maxWidth; i++)
+        {
+
+        }
+        // throw not implemented yet
+
+
+    }
     void CreateBuilding(Vector2 c0, Vector2 c1, Vector2 c2, Vector2 c3, float height)
     {
         // You can change that line to provide another MeshFilter

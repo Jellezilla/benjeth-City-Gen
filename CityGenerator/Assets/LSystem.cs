@@ -354,7 +354,7 @@ public class LSystem : MonoBehaviour {
 		}
 	}
 
-	public void JoinSegments (Vector3[] boundVertices, float testLength,ª bool testBothDirections = true) {
+	public void JoinSegments (Vector3[] boundVertices, float testLength, bool testBothDirections = true) {
 
 		List<Vector2> joinPoints = new List<Vector2>();
 		Debug.Assert( boundVertices.Length > 1, "Vertex count in test bounds are invalid");

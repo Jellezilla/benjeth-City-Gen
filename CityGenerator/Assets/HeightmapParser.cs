@@ -1,9 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿/*
+    Author: Jesper Tjørnelund (jeth@itu.dk)
+    The heightmapParser takes in a heightmap and stores each pixel in a dictionary with a vector2 (position index) as a key and the grayscale intensity as value. The value is to be used as density values. 
+    
+*/
+
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Delaunay;
-using Delaunay.Geo;
 
 public class HeightmapParser : MonoBehaviour {
 

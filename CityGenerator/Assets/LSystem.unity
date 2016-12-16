@@ -147,7 +147,7 @@ Prefab:
     - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
         type: 2}
       propertyPath: angles.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000010356863406, guid: 520372ed946284c9dbb59e7f54317a5c, type: 2}
       propertyPath: m_LocalPosition.x
@@ -204,12 +204,12 @@ Prefab:
     - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
         type: 2}
       propertyPath: generations
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
         type: 2}
       propertyPath: angles.Array.data[0]
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114000011100151182, guid: 520372ed946284c9dbb59e7f54317a5c,
         type: 2}

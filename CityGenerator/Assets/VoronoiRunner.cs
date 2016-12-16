@@ -32,7 +32,7 @@ public class VoronoiRunner : MonoBehaviour
     private List<LineSegment> m_delaunayTriangulation;
     HeightmapParser hmp;
 	List<VoronoiRegion> regions = new List<VoronoiRegion>();
-	List<RoadSegment> segments = new List<RoadSegment>();
+	List<RoadSegment> districtSegments = new List<RoadSegment>();
 	List<RoadSegment> borders = new List<RoadSegment>();
 
     void Awake()
@@ -108,10 +108,10 @@ public class VoronoiRunner : MonoBehaviour
 			LSystem clone = (LSystem) Instantiate(LSystem);
 			clone.init(point);
 
-			if (!tmp.isBorderRegion){
+		/*	if (!tmp.isBorderRegion){
 				clone.center(clone.getCenter(), clone.getCenter(bounds));
 				clone.redraw();
-			}
+			}*/
 
 			clone.confineToBounds(sides);
 			//clone.JoinSegments(verts.ToArray(), 1.1f);
@@ -127,7 +127,7 @@ public class VoronoiRunner : MonoBehaviour
 			}
 
 			clone.confineToBounds(sides);
-			//clone.JoinSegments(verts.ToArray(), 1.1f);
+		//	clone.joinSegments(verts.ToArray(), 1.1f);
 		}
 
 	
@@ -170,7 +170,7 @@ public class VoronoiRunner : MonoBehaviour
 			segment.start = left;
 			segment.end = right;
 			segment.id = counter;
-			segments.Add(segment);
+			districtSegments.Add(segment);
 			counter++;
 		}
 	
@@ -178,11 +178,11 @@ public class VoronoiRunner : MonoBehaviour
 
     }
 
-	List<RoadSegment> GetBoundaries(Vector2 origin, float dist, int testCount = 120){
+	List<RoadSegment> GetBoundaries(Vector2 origin, float dist, int testCount = 360){
 
 		Debug.Assert ( testCount > 0, "testCount has to be a positive non zero value");
 
-		float x = 360/testCount;
+		float x = 360/testCount; // degrees
 		Vector2 point = new Vector2(origin.x, origin.y + dist); // start checking above origin
 		List <RoadSegment> boundary = new List<RoadSegment>();
 		bool isBorderRegion = false;
@@ -193,8 +193,8 @@ public class VoronoiRunner : MonoBehaviour
 			point = new Vector2(newX, newY);
 
 			RoadSegment intersected;
-			if ((intersected = LineLineIntersection.instance.MultipleLineSegmentIntersection(origin, point, segments.ToArray())) != null){
-
+			if ((intersected = LineLineIntersection.instance.MultipleLineSegmentIntersection(origin, point, districtSegments.ToArray())) != null){
+		
 				if (!boundary.Contains(intersected)){
 					boundary.Add(intersected);
 				}
@@ -204,7 +204,7 @@ public class VoronoiRunner : MonoBehaviour
 				isBorderRegion = true;
 			}
 		}
-
+			
 		VoronoiRegion vr = new VoronoiRegion();
 		vr.center = origin;
 		vr.boundary = boundary;
@@ -221,23 +221,22 @@ public class VoronoiRunner : MonoBehaviour
 			if (seg.start.x < minX)
 				minX = seg.start.x;
 			if (seg.end.x < minX)
-				minX = seg.start.x;
+				minX = seg.end.x;
 
 			if (seg.start.x > maxX)
 				maxX = seg.start.x;
 			if (seg.end.x > maxX)
-				maxX = seg.start.x;
-
+				maxX = seg.end.x;
 
 			if (seg.start.y < minY)
 				minY = seg.start.y;
 			if (seg.end.y < minY)
-				minY = seg.start.y;
+				minY = seg.end.y;
 
 			if (seg.start.y > maxY)
 				maxY = seg.start.y;
 			if (seg.end.y > maxY)
-				maxY = seg.start.y;
+				maxY = seg.end.y;
 		}
 		vr.min = new Vector2(minX, minY);
 		vr.max = new Vector2(maxX, maxY);

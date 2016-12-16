@@ -51,7 +51,7 @@ public class LSystem : MonoBehaviour {
 		}
 
 		result = axiom;
-		lineWidth = length;
+		lineWidth = length * 5;
 	}
 
 
@@ -77,9 +77,11 @@ public class LSystem : MonoBehaviour {
 		bool up = false;
 		bool down = false;
 
+	
+
 		foreach(RoadSegment seg in turtle.segments){
 
-			float multiplier = 1f;
+			float multiplier = 0;
 			if (seg.start.x < min.x + length * multiplier || seg.end.x < min.x + length * multiplier){
 				left = true;
 			}
@@ -164,7 +166,7 @@ public class LSystem : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.J)){
-			JoinSegments(triangle.ToArray(), 1f);
+			joinSegments(triangle.ToArray(), 1f);
 		}
 
 		if (Input.GetKeyDown(KeyCode.M)){
@@ -354,7 +356,7 @@ public class LSystem : MonoBehaviour {
 		}
 	}
 
-	public void JoinSegments (Vector3[] boundVertices, float testLength, bool testBothDirections = true) {
+	public void joinSegments (Vector3[] boundVertices, float testLength, bool testBothDirections = true) {
 
 		List<Vector2> joinPoints = new List<Vector2>();
 		Debug.Assert( boundVertices.Length > 1, "Vertex count in test bounds are invalid");
@@ -407,10 +409,6 @@ public class LSystem : MonoBehaviour {
 			}
 		}
 		redraw();
-
-
-
-
 	}
 
 }

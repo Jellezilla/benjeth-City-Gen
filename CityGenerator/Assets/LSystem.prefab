@@ -52,6 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   axiom: B-A
+  angles:
+  - 0
   stochasticRules:
   - ruleVariations:
     - left: A
@@ -60,10 +62,10 @@ MonoBehaviour:
       right: -FFFF[-A]FF[+B]
   - ruleVariations:
     - left: B
-      right: FFFF[A--FF]
+      right: FFF[A--FF]
     - left: B
       right: FF[B--FF]
-  generations: 8
+  generations: 7
   mat: {fileID: 2100000, guid: 34e78888b79bf4597a166d5f00edb35d, type: 2}
   length: 1
   angle: 90

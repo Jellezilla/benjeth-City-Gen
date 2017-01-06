@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Delaunay;
 using Delaunay.Geo;
+using Vectrosity;
+
 
 public class VoronoiRegion{
 
@@ -34,6 +36,7 @@ public class VoronoiRunner : MonoBehaviour
 	List<VoronoiRegion> regions = new List<VoronoiRegion>();
 	List<RoadSegment> districtSegments = new List<RoadSegment>();
 	List<RoadSegment> borders = new List<RoadSegment>();
+	public Material mat;
 
     void Awake()
     {
@@ -71,7 +74,17 @@ public class VoronoiRunner : MonoBehaviour
 		
 	void Start (){
 		Run();
+		draw(m_edges);
+	}
 
+
+	void draw(List<LineSegment> segments){
+
+		foreach(LineSegment segment in segments){
+			Vector3[] line = new Vector3[]{(Vector3)segment.p0, (Vector3)segment.p1};
+			VectorLine l  = new VectorLine("Road segment", line, mat, 6, LineType.Discrete);
+			l.Draw3D();
+		}
 	}
     void Update()
     {
@@ -80,13 +93,13 @@ public class VoronoiRunner : MonoBehaviour
             Run();
         }
 		else if (Input.GetKeyDown(KeyCode.N) && !populated){
-			StartCoroutine(buildCity(.1f));
+			StartCoroutine(buildCity());
 
 
 		}
     }
 
-	IEnumerator buildCity(float delay){
+	IEnumerator buildCity(){
 
 		populated = true;
 		foreach(Vector2 point in m_points){
@@ -251,7 +264,7 @@ public class VoronoiRunner : MonoBehaviour
     {
        
 
-        if (m_edges != null)
+       /* if (m_edges != null)
         {
             Gizmos.color = Color.black;
             for (int i = 0; i < m_edges.Count; i++)
@@ -260,7 +273,7 @@ public class VoronoiRunner : MonoBehaviour
                 Vector2 right = (Vector2)m_edges[i].p1;
                 Gizmos.DrawLine((Vector3)left, (Vector3)right);
             }
-        }
+        }*/
 		if (showExtraGraphics){
 
 		Gizmos.color = Color.red;

@@ -80,9 +80,7 @@ public class VoronoiRunner : MonoBehaviour
             Run();
         }
 		else if (Input.GetKeyDown(KeyCode.N) && !populated){
-
-
-			StartCoroutine(buildCity(.2f));
+			StartCoroutine(buildCity(.1f));
 
 
 		}
@@ -92,7 +90,8 @@ public class VoronoiRunner : MonoBehaviour
 
 		populated = true;
 		foreach(Vector2 point in m_points){
-			yield return new WaitForSeconds(delay);
+			//yield return new WaitForSeconds(delay);
+			yield return new WaitForEndOfFrame();
 
 			int counter = 0;
 			List<RoadSegment> bounds = GetBoundaries(point, 10000);
@@ -114,10 +113,12 @@ public class VoronoiRunner : MonoBehaviour
 			}*/
 
 			clone.confineToBounds(sides);
+			//	clone.joinSegments(verts.ToArray(), 1.1f);
+
 			//clone.JoinSegments(verts.ToArray(), 1.1f);
 
-			if (!tmp.isBorderRegion){
-				while (!clone.fillBounds(tmp.min, tmp.max) && counter < 15){
+			/*if (!tmp.isBorderRegion){
+				while ((!clone.fillBounds(tmp.min, tmp.max) && counter < 1)){
 					yield return new WaitForSeconds(0.005f);
 					clone.reset();
 					clone.init(point);
@@ -126,8 +127,7 @@ public class VoronoiRunner : MonoBehaviour
 				}
 			}
 
-			clone.confineToBounds(sides);
-		//	clone.joinSegments(verts.ToArray(), 1.1f);
+			clone.confineToBounds(sides);*/
 		}
 
 	
@@ -200,7 +200,6 @@ public class VoronoiRunner : MonoBehaviour
 				}
 			}
 			else {
-				print("Did not intersect, is border");
 				isBorderRegion = true;
 			}
 		}

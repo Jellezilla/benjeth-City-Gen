@@ -51,7 +51,7 @@ public class LSystem : MonoBehaviour {
 		}
 
 		result = axiom;
-		lineWidth = length * 5;
+		lineWidth = length * 2;
 	}
 
 
@@ -81,27 +81,29 @@ public class LSystem : MonoBehaviour {
 
 		foreach(RoadSegment seg in turtle.segments){
 
-			float multiplier = 0;
-			if (seg.start.x < min.x + length * multiplier || seg.end.x < min.x + length * multiplier){
+			float multiplier = 2;
+
+			if (seg.start.x < min.x || seg.end.x < min.x ){
 				left = true;
 			}
 
-			if (seg.start.x > max.x - length * multiplier || seg.end.x > max.x - length * multiplier){
+			if (seg.start.x > max.x || seg.end.x > max.x){
 				right = true;
 			}
 
-			if (seg.start.y < min.y + length * multiplier || seg.end.y < min.y + length * multiplier){
+			if (seg.start.y < min.y|| seg.end.y < min.y){
 				down = true;
 			}
 
-			if (seg.start.y > max.y - length * multiplier || seg.end.y > max.y - length * multiplier){
+			if (seg.start.y > max.y|| seg.end.y > max.y){
 				up = true;
+			}
+		
+			if (left && right){
+				return true;
 			}
 		} 
 
-		if (left && right && up && down){
-			return true;
-		}
 
 		return false;
 
@@ -215,7 +217,7 @@ public class LSystem : MonoBehaviour {
 
 		// find and remove all segments outside boundaries
 		List<RoadSegment> segmentsToRemove = new List<RoadSegment>();
-		foreach(RoadSegment segment in turtle.segments){
+		/*foreach(RoadSegment segment in turtle.segments){
 
 			if (!BoundCheck.instance.insideBoundingBox(segment.start, b.min.x, b.max.x, b.min.y, b.max.y) || 
 				!BoundCheck.instance.insideBoundingBox(segment.end, b.min.x, b.max.x, b.min.y, b.max.y)){
@@ -232,7 +234,7 @@ public class LSystem : MonoBehaviour {
 		VectorLine.Destroy(lines);
 		lines.Clear();
 
-
+*/
 
 
 		foreach(RoadSegment segment in turtle.segments){

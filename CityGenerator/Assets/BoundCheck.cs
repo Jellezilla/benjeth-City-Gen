@@ -56,15 +56,16 @@ public class BoundCheck  {
 
 	public Bounds getBounds(List<Vector3> verts){
 		Bounds b = new Bounds();
-
 		b.min = new Vector2(verts[0].x, verts[0].y);
 		b.max = new Vector2(verts[0].x, verts[0].y);
 
 		Vector2 min = verts[0];
 		Vector2 max = verts[0];
+
 		foreach(Vector2 p in verts){
-			if (p.x < b.min.x)
+			if (p.x < b.min.x){
 				min.x = p.x;
+			}
 			if (p.x > b.max.x)
 				max.x = p.x;
 			if (p.y < b.min.y)

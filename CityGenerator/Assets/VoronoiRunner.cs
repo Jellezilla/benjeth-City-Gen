@@ -82,7 +82,7 @@ public class VoronoiRunner : MonoBehaviour
 
 		foreach(LineSegment segment in segments){
 			Vector3[] line = new Vector3[]{(Vector3)segment.p0, (Vector3)segment.p1};
-			VectorLine l  = new VectorLine("Road segment", line, mat, 6, LineType.Discrete);
+			VectorLine l  = new VectorLine("Road segment", line, mat, 3, LineType.Discrete);
 			l.Draw3D();
 		}
 	}

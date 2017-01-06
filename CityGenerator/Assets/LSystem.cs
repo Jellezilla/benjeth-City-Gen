@@ -266,7 +266,6 @@ public class LSystem : MonoBehaviour {
 			segLine = new VectorLine("Road segment", (Vector3[])segment.getLine(), mat, lineWidth, LineType.Discrete);
 			segLine.Draw3D();
 			lines.Add(segLine);
-			segLine.depth = 2;
 		}
 	}
 

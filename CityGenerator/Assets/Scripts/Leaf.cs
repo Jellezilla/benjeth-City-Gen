@@ -40,7 +40,6 @@ public class Leaf : MonoBehaviour
 
 
 	public bool hasBeenSplit(){
-		print("has been split: " + !(leftChild == null && rightChild == null));
 		return !(leftChild == null && rightChild == null);
 
 	}

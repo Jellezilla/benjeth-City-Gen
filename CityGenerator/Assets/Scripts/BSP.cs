@@ -63,13 +63,12 @@ public class BSP : MonoBehaviour
 		int counter = 0;
 		List<GameObject> tmp = new List<GameObject>();
 		while (did_split) {
-
 			did_split = false;
 			for (int i = 0; i < leafs.Count; i++){
 				Leaf leaf = leafs[i].GetComponent<Leaf>();
 				if (leaf.width > MAX_LEAF_SIZE || leaf.height > MAX_LEAF_SIZE){
 					
-					if (!leaf.hasBeenSplit() && counter <= 5){ // if leaf has not been split ...
+					if (!leaf.hasBeenSplit()){ // if leaf has not been split ...
 						if (leaf.Split()){ //... and split was successful 
 							// add leaf children
 							tmp.Add(leaf.leftChild);

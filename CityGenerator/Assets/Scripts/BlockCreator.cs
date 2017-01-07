@@ -26,7 +26,13 @@ public class BlockCreator : MonoBehaviour {
         MeshFilter filter = newBuilding.AddComponent<MeshFilter>();
         Mesh mesh = filter.mesh;
         mesh.Clear();
-        
+
+        newBuilding.transform.position = new Vector3(
+            (c0.x + c1.x + c2.x + c3.x) / 4,
+            0.0f,
+            (c0.y + c1.y + c2.y + c3.y) / 4);
+
+
         #region Vertices
         Vector3 p0 = new Vector3(c0.x, 0, c0.y);
         Vector3 p1 = new Vector3(c1.x, 0, c1.y);

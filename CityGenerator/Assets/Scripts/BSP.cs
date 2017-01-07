@@ -79,19 +79,20 @@ public class BSP : MonoBehaviour
             Leaf l = go.GetComponent<Leaf>();
             if (l.leftChild == null && l.rightChild == null) // make sure only to draw the last level of children to avoid overlaps. 
             {
-                buildings.Add(bc.CreateBuilding(
+                GameObject nb = bc.CreateBuilding(
                         new Vector2(l.x, l.y),
                         new Vector2(l.x + l.width, l.y),
                         new Vector2(l.x + l.width, l.y + l.height),
                         new Vector2(l.x, l.y + l.height),
                         Random.Range(10.0f, 30.0f)
-                    ));
-                
+                    );
+                buildings.Add(nb);
             }
         }
 
        foreach(GameObject go in buildings)
         {
+            
             go.GetComponent<MeshRenderer>().material = mat01;
         }
     }

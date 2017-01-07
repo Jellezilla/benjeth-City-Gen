@@ -8,8 +8,10 @@ using System.Collections.Generic;
 
 public class BSP : MonoBehaviour
 {
+    public List<GameObject> buildings;
+    public Material mat01;
 
-    uint MAX_LEAF_SIZE = 20;
+    uint MAX_LEAF_SIZE = 6;
 
     //public List<Leaf> leafs = new List<Leaf>();
     public List<GameObject> leafs = new List<GameObject>();
@@ -26,40 +28,13 @@ public class BSP : MonoBehaviour
     {
         h = 100;
         w = 100;
-        //GameObject root = new GameObject();
-        //root = new Leaf(0, 0, h, w);
         GameObject root = new GameObject();
-        //Leaf root = new Leaf();
         root.AddComponent<Leaf>();
         root.GetComponent<Leaf>().Init(0, 0, h, w);
-        // root.AddComponent<Leaf>();
         leafs.Add(root);
 
         bool did_split = true;
-
-       // DidSplit(did_split);
-      /*  
-        while (did_split)
-        {
-            did_split = false;
-            foreach (GameObject go in leafs)
-            {
-                Leaf l = go.GetComponent<Leaf>();
-                if (l.leftChild == null && l.rightChild == null)
-                {
-                    if (l.width > MAX_LEAF_SIZE || l.height > MAX_LEAF_SIZE)
-                    {
-                        if (l.Split())
-                        {
-                            leafs.Add(l.leftChild);
-                            leafs.Add(l.rightChild);
-
-                            did_split = true;
-                        }
-                    }
-                }
-            }
-        }*/
+        
 		int counter = 0;
 		List<GameObject> tmp = new List<GameObject>();
 		while (did_split) {
@@ -84,62 +59,40 @@ public class BSP : MonoBehaviour
 			}
 			tmp.Clear();
 		}
-
-        
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            AddBuildings();
+        }
     }
 
-    void DidSplit(bool did_split)
+    void AddBuildings()
     {
-
-        //List<Leaf> tmpList = new List<Leaf>();
-        //List<GameObject> tmpList = new List<GameObject>();
-
-        did_split = false; 
-        foreach (GameObject go in leafs)
+        BlockCreator bc = new BlockCreator();
+        buildings = new List<GameObject>();
+        foreach(GameObject go in leafs)
         {
+           
             Leaf l = go.GetComponent<Leaf>();
-            if(l.leftChild == null && l.rightChild == null)
+            if (l.leftChild == null && l.rightChild == null) // make sure only to draw the last level of children to avoid overlaps. 
             {
-                if (l.width > MAX_LEAF_SIZE || l.height > MAX_LEAF_SIZE)
-                {
-                    if (l.Split())
-                    {
-//                        leafs.Add(l.leftChild);
-//                        leafs.Add(l.rightChild);
-
-                        tmpList.Add(l.leftChild);
-                        tmpList.Add(l.rightChild);
-
-                        did_split = true;
-                        Debug.Log("tykke");
-                        DidSplit(did_split);
-                    }
-                } else {
-                    Debug.Log("Space too small, stopping...");
-                    return;
-                }
+                buildings.Add(bc.CreateBuilding(
+                        new Vector2(l.x, l.y),
+                        new Vector2(l.x + l.width, l.y),
+                        new Vector2(l.x + l.width, l.y + l.height),
+                        new Vector2(l.x, l.y + l.height),
+                        Random.Range(10.0f, 30.0f)
+                    ));
+                
             }
         }
-       // UpdateList();
-    }
 
-    void UpdateList()
-    {
-        leafs.Add(tmpList[0]);
-        leafs.Add(tmpList[1]);
-        tmpList.Clear();
-        /*
-        foreach(GameObject go in tmpList)
+       foreach(GameObject go in buildings)
         {
-            
-            leafs.Add(go);
-            tmpList.Remove(go);
-        }*/
+            go.GetComponent<MeshRenderer>().material = mat01;
+        }
     }
 }

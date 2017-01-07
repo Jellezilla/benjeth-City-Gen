@@ -1,22 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
 public class BlockCreator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        CreateBox();
+    //    CreateBox();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 	    if(Input.GetKeyDown(KeyCode.A))
         {
             CreateBuilding(new Vector2(0, 0), new Vector2(0, 10), new Vector2(10, 10), new Vector2(10, 0), 5.0f);
             //CreateBuilding(new Vector2(10, 10), new Vector2(15, 20), new Vector2(20, 10), new Vector2(5, 20), 2.0f);
         }
-	}
-    void CreateBuilding(Vector2 c0, Vector2 c1, Vector2 c2, Vector2 c3, float height)
+	}*/
+    public GameObject CreateBuilding(Vector2 c0, Vector2 c1, Vector2 c2, Vector2 c3, float height)
     {
         // You can change that line to provide another MeshFilter
         GameObject newBuilding = new GameObject();
@@ -149,11 +151,12 @@ public class BlockCreator : MonoBehaviour {
         mesh.vertices = vertices;
         mesh.normals = normales;
         mesh.uv = uvs;
-        mesh.triangles = triangles;
-
+        mesh.triangles = triangles.Reverse().ToArray();
+        
         mesh.RecalculateBounds();
         mesh.Optimize();
 
+        return newBuilding;
     }
 
     void CreateBox()

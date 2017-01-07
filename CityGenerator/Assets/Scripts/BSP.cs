@@ -67,14 +67,16 @@ public class BSP : MonoBehaviour
 			did_split = false;
 			for (int i = 0; i < leafs.Count; i++){
 				Leaf leaf = leafs[i].GetComponent<Leaf>();
-
-				if (!leaf.hasBeenSplit() && counter <= 3){ // if leaf has not been split ...
-					if (leaf.Split()){ //... and split was successful 
-						// add leaf children
-						tmp.Add(leaf.leftChild);
-						tmp.Add(leaf.rightChild);
-						did_split = true;
-						counter++;
+				if (leaf.width > MAX_LEAF_SIZE || leaf.height > MAX_LEAF_SIZE){
+					
+					if (!leaf.hasBeenSplit() && counter <= 5){ // if leaf has not been split ...
+						if (leaf.Split()){ //... and split was successful 
+							// add leaf children
+							tmp.Add(leaf.leftChild);
+							tmp.Add(leaf.rightChild);
+							did_split = true;
+							counter++;
+						}
 					}
 				}
 			}

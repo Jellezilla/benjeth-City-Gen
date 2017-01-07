@@ -37,8 +37,8 @@ public class BSP : MonoBehaviour
 
         bool did_split = true;
 
-        DidSplit(did_split);
-        /*
+       // DidSplit(did_split);
+      /*  
         while (did_split)
         {
             did_split = false;
@@ -59,8 +59,32 @@ public class BSP : MonoBehaviour
                     }
                 }
             }
-        }
-        */
+        }*/
+		int counter = 0;
+		List<GameObject> tmp = new List<GameObject>();
+		while (did_split) {
+
+			did_split = false;
+			for (int i = 0; i < leafs.Count; i++){
+				Leaf leaf = leafs[i].GetComponent<Leaf>();
+
+				if (!leaf.hasBeenSplit() && counter <= 3){ // if leaf has not been split ...
+					if (leaf.Split()){ //... and split was successful 
+						// add leaf children
+						tmp.Add(leaf.leftChild);
+						tmp.Add(leaf.rightChild);
+						did_split = true;
+						counter++;
+					}
+				}
+			}
+			foreach (var item in tmp) {
+				leafs.Add(item);
+			}
+			tmp.Clear();
+		}
+
+        
     }
 
     // Update is called once per frame
@@ -91,7 +115,6 @@ public class BSP : MonoBehaviour
                         tmpList.Add(l.leftChild);
                         tmpList.Add(l.rightChild);
 
-
                         did_split = true;
                         Debug.Log("tykke");
                         DidSplit(did_split);
@@ -102,7 +125,7 @@ public class BSP : MonoBehaviour
                 }
             }
         }
-        //UpdateList();
+       // UpdateList();
     }
 
     void UpdateList()

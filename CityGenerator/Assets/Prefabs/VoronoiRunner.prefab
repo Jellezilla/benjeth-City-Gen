@@ -52,4 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_pointCount: 100
+  LSystem: {fileID: 0}
   showExtraGraphics: 0
+  newDiagramOnKeyPress: 0
+  mat: {fileID: 0}

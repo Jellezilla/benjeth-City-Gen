@@ -37,6 +37,13 @@ public class Leaf : MonoBehaviour
             this.width = _width;
         }*/
 
+
+
+	public bool hasBeenSplit(){
+		print("has been split: " + !(leftChild == null && rightChild == null));
+		return !(leftChild == null && rightChild == null);
+
+	}
     public bool Split()
     {
         if (leftChild || rightChild)

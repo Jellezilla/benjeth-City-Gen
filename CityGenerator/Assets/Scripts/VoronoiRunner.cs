@@ -25,6 +25,8 @@ public class VoronoiRunner : MonoBehaviour
 	private bool populated = false;
 	public LSystem LSystem;
 	public bool showExtraGraphics = false;
+	public bool showDots = false;
+
 	public bool newDiagramOnKeyPress = false;
     private List<Vector2> m_points;
     private float m_mapWidth;
@@ -274,8 +276,7 @@ public class VoronoiRunner : MonoBehaviour
                 Gizmos.DrawLine((Vector3)left, (Vector3)right);
             }
         }*/
-		if (showExtraGraphics){
-
+		if (showExtraGraphics || showDots){
 		Gizmos.color = Color.red;
 		if (m_points != null)
 		{
@@ -289,7 +290,9 @@ public class VoronoiRunner : MonoBehaviour
 				Gizmos.DrawSphere(m_points[i], 1f);
 			}
 		}
-
+		}
+		if (showExtraGraphics){
+			
 	        Gizmos.color = Color.magenta;
 	        if (m_delaunayTriangulation != null)
 	        {

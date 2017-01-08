@@ -2,6 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+public class Building{
+
+	public GameObject building;
+	public Vector3 position;
+
+}
 public class HeightMap : MonoBehaviour {
 
 
@@ -12,17 +19,16 @@ public class HeightMap : MonoBehaviour {
 	public Texture2D densityTex; 
 	private Texture2D noiseTex;
 	private Texture2D combinedNoiseTex; 
-	public float xOrg;
-	public float yOrg;
+	private float xOrg;
+	private float yOrg;
 	public float scale = 1.0f;
 	private Color[] combinedPix;
 	private Color[] pix;
 	public GameObject combinedPlane;
 	public GameObject perlinPlane;
 	private List<GameObject> buildings = new List<GameObject>();
-	public GameObject buildingsParent; 
 	private Bounds cityBounds;
-	public int buildingsPerRow = 20;
+	private int buildingsPerRow = 20;
 
 
 
@@ -38,12 +44,19 @@ public class HeightMap : MonoBehaviour {
 
 		CalcNoise();
 		Combine();
-		PlaceCubes(buildingsPerRow);
+		//PlaceCubes(buildingsPerRow);
 
-		cityBounds = GetBounds(buildings);
-		StartCoroutine(SetHeight());
+		//cityBounds = GetBounds(buildings);
+		//StartCoroutine(SetHeight());
 	}
 
+
+	public void Run(List<GameObject> buildings){
+		print("run");
+		cityBounds = GetBounds(buildings);
+		StartCoroutine(SetHeight(buildings));
+
+	}
 
 	void CalcNoise() {
 		Vector2 offset = new Vector2(Random.Range(0,100),Random.Range(0,100));
@@ -63,35 +76,32 @@ public class HeightMap : MonoBehaviour {
 		noiseTex.Apply();
 	}
 
-	IEnumerator SetHeight(){
+	IEnumerator SetHeight(List<GameObject> buildings){
 
 		Debug.Assert(width * height > buildings.Count, "the height map is too small. There are more buildings than texels");
 		yield return new WaitForEndOfFrame();
-
-		int multiplier = width / buildingsPerRow;
-
+		print(cityBounds.min + " - " + cityBounds.max);
 		foreach (var item in buildings) {
 			yield return new WaitForEndOfFrame();
-
 			float upper_bonus = 0;
 			float lower_bonus = 0;
-			float h = combinedNoiseTex.GetPixel((int)(item.transform.position.x * multiplier), (int)(item.transform.position.z * multiplier)).grayscale;
-		
-			print(h);
+			float h = combinedNoiseTex.GetPixel((int)item.transform.position.x.Remap(cityBounds.min.x,  cityBounds.max.x,  0, width), (int)item.transform.position.z.Remap(cityBounds.min.y, cityBounds.max.y, 0, height)).grayscale;
+			//print((int)item.transform.position.x.Remap(cityBounds.min.x, 0, cityBounds.max.x, width) + " -- " + (int)item.transform.position.z.Remap(cityBounds.min.y, 0, cityBounds.max.y, height));
+			//print(h);
 			if (h > 0.65) {
 				upper_bonus = Random.Range(0f, maxHeight/5);
 			}
 			else if (h < .25) {
 				lower_bonus = Random.Range(0f, -(maxHeight * 0.2f));
 			}
+			item.transform.localScale = new Vector3(item.transform.localScale.x, h * maxHeight + lower_bonus + upper_bonus, item.transform.localScale.z); // subtract 0.1 because lowest value is around 0.6
+			//item.transform.position = new Vector3(item.transform.position.x, item.transform.localScale.y/2, item.transform.position.z);
 
-			item.transform.localScale = new Vector3(0.7f, (combinedNoiseTex.GetPixel((int)(item.transform.position.x * multiplier), (int)(item.transform.position.z * multiplier)).r) * maxHeight + lower_bonus + upper_bonus, 0.7f); // subtract 0.1 because lowest value is around 0.6
-			item.transform.position = new Vector3(item.transform.position.x, item.transform.localScale.y/2, item.transform.position.z);
 		} 
 
 
 	}
-
+		
 	void Combine(){
 		float y = 0.0f;
 		while (y < combinedNoiseTex.height) {
@@ -127,7 +137,6 @@ public class HeightMap : MonoBehaviour {
 				cube.transform.position = new Vector3(i, 0, j);
 				cube.transform.localScale = new Vector3(0.7f, 1f, 0.7f);
 				buildings.Add(cube);
-				cube.transform.SetParent(buildingsParent.transform);
 			}
 
 		}
@@ -135,8 +144,8 @@ public class HeightMap : MonoBehaviour {
 
 	public Bounds GetBounds(List<GameObject> objs){
 		Bounds b = new Bounds();
-		b.min = new Vector2(objs[0].transform.position.x, objs[0].transform.position.y);
-		b.max = new Vector2(objs[0].transform.position.x, objs[0].transform.position.y);
+		b.min = new Vector2(objs[0].transform.position.x, objs[0].transform.position.z);
+		b.max = new Vector2(objs[0].transform.position.x, objs[0].transform.position.z);
 
 		Vector2 min = objs[0].transform.position;
 		Vector2 max = objs[0].transform.position;
@@ -151,11 +160,11 @@ public class HeightMap : MonoBehaviour {
 			if (objs[i].transform.position.x > max.x){
 				max.x = objs[i].transform.position.x;
 			}
-			if (objs[i].transform.position.y < min.y){
-				min.y = objs[i].transform.position.y;
+			if (objs[i].transform.position.z < min.y){
+				min.y = objs[i].transform.position.z;
 			}
-			if (objs[i].transform.position.y > max.y){
-				max.y = objs[i].transform.position.y;
+			if (objs[i].transform.position.z > max.y){
+				max.y = objs[i].transform.position.z;
 			}
 
 			b.min = min;
@@ -171,4 +180,12 @@ public class HeightMap : MonoBehaviour {
 	void Update () {
 	
 	}
+}
+
+public static class ExtensionMethods {
+
+	public static float Remap (this float value, float from1, float to1, float from2, float to2) {
+		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+	}
+
 }

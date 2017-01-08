@@ -10,24 +10,24 @@ public class BSP : MonoBehaviour
 {
     public List<GameObject> buildings;
     public Material mat01;
-
     uint MAX_LEAF_SIZE = 6;
 
     //public List<Leaf> leafs = new List<Leaf>();
     public List<GameObject> leafs = new List<GameObject>();
 
     List<GameObject> tmpList = new List<GameObject>();
-
-    int h;
-    int w;
+	HeightMap map;
+    public int h = 500;
+    public int w = 500;
 
     Leaf root;
 
     // Use this for initialization
     void Start()
     {
-        h = 100;
-        w = 100;
+      //  h = 100;
+      //  w = 100;
+		map = GameObject.FindGameObjectWithTag("HeightMap").GetComponent<HeightMap>();
         GameObject root = new GameObject();
         root.AddComponent<Leaf>();
         root.GetComponent<Leaf>().Init(0, 0, h, w);
@@ -66,7 +66,12 @@ public class BSP : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.B))
         {
             AddBuildings();
+
         }
+		if (Input.GetKeyDown(KeyCode.R)){
+			map.Run(buildings);
+
+		}
     }
 
     void AddBuildings()
@@ -84,7 +89,7 @@ public class BSP : MonoBehaviour
                         new Vector2(l.x + l.width, l.y),
                         new Vector2(l.x + l.width, l.y + l.height),
                         new Vector2(l.x, l.y + l.height),
-                        Random.Range(10.0f, 30.0f)
+                        1
                     );
                 buildings.Add(nb);
             }

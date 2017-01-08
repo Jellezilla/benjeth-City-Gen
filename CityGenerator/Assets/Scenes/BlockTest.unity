@@ -705,7 +705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildings: []
-  mat01: {fileID: 2100000, guid: 4e3a6e47e9c507a4286ec31d61827042, type: 2}
+  mat01: {fileID: 2100000, guid: 2e56899b544594d5d9c2ed99527f9539, type: 2}
   leafs: []
   h: 100
   w: 100

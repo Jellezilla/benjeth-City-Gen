@@ -447,7 +447,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000010717017802, guid: 625bf83b2db264cfcb2b06c8ef4f0f54, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000012863503010, guid: 625bf83b2db264cfcb2b06c8ef4f0f54,
         type: 2}
@@ -459,6 +459,11 @@ Prefab:
       propertyPath: heightmap
       value: 
       objectReference: {fileID: 2800000, guid: 529f6d7f1e9f149c683c1a5e8ef14b62, type: 3}
+    - target: {fileID: 114000012863503010, guid: 625bf83b2db264cfcb2b06c8ef4f0f54,
+        type: 2}
+      propertyPath: tier1Threshold
+      value: 0.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 625bf83b2db264cfcb2b06c8ef4f0f54, type: 2}
   m_IsPrefabParent: 0
@@ -748,7 +753,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000013129623060, guid: 66cae249f96444a25a6ed06b4b1a4634, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114000011427662480, guid: 66cae249f96444a25a6ed06b4b1a4634,
         type: 2}
